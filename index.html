@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Target PVP</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap');
+
+        :root {
+            --primary-gold: #9f9048;
+            --dark-bg: #0f0f13;
+            --darker-bg: #09090a;
+        }
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: linear-gradient(to bottom, var(--darker-bg), var(--dark-bg));
+            color: #f3f4f6;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 20% 30%, rgba(159, 144, 72, 0.15) 0%, transparent 40%),
+                        radial-gradient(circle at 80% 70%, rgba(13, 13, 15, 0.1) 0%, transparent 40%);
+            z-index: -1;
+        }
+
+        .glow-text {
+            text-shadow: 0 0 15px var(--primary-gold), 0 0 25px rgba(159, 144, 72, 0.5);
+            animation: pulsate 2s infinite alternate;
+        }
+
+        @keyframes pulsate {
+            0% { text-shadow: 0 0 15px var(--primary-gold), 0 0 25px rgba(159, 144, 72, 0.5); }
+            100% { text-shadow: 0 0 20px var(--primary-gold), 0 0 40px rgba(159, 144, 72, 0.7), 0 0 55px rgba(159, 144, 72, 0.4); }
+        }
+
+        .btn-glow {
+            box-shadow: 0 0 15px var(--primary-gold);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-glow::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transform: rotate(45deg);
+            animation: shine 3s infinite;
+        }
+
+        @keyframes shine {
+            0% { transform: translateX(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) rotate(45deg); }
+        }
+
+        .btn-glow:hover {
+            box-shadow: 0 0 25px var(--primary-gold), 0 0 40px rgba(159, 144, 72, 0.4);
+            transform: translateY(-3px);
+        }
+
+        .nav-link {
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            background: var(--primary-gold);
+            bottom: 0;
+            right: 0;
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .team-member, .partner-card {
+            transition: all 0.5s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .team-member::before, .partner-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(to bottom, transparent 0%, rgba(159, 144, 72, 0.1) 100%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 1;
+        }
+
+        .team-member:hover::before, .partner-card:hover::before {
+            opacity: 1;
+        }
+
+        .team-member:hover, .partner-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 25px rgba(159, 144, 72, 0.3);
+        }
+
+        .team-member img, .partner-card img {
+            transition: all 0.5s ease;
+        }
+
+        .team-member:hover img, .partner-card:hover img {
+            transform: scale(1.1);
+        }
+
+        .counter {
+            font-size: 3.5rem;
+            background: linear-gradient(135deg, 
+                var(--primary-gold) 0%, 
+                rgba(159, 144, 72, 0.7) 30%,
+                rgba(0, 0, 0, 0.8) 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            font-weight: 700;
+        }
+
+        .discord-stats {
+            background: rgba(15, 15, 19, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(159, 144, 72, 0.3);
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .discord-stats:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(159, 144, 72, 0.2);
+            border-color: rgba(159, 144, 72, 0.5);
+        }
+
+        .floating {
+            animation: floating 3s ease-in-out infinite;
+        }
+
+        @keyframes floating {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+
+        .particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: -1;
+        }
+
+        .particle {
+            position: absolute;
+            background: rgba(159, 144, 72, 0.5);
+            border-radius: 50%;
+            opacity: 0;
+            animation: particleAnimation 10s linear infinite;
+        }
+
+        @keyframes particleAnimation {
+            0% {
+                transform: translateY(0) translateX(0) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100vh) translateX(100vw) rotate(720deg);
+                opacity: 0;
+            }
+        }
+
+        .section-title {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 3rem;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            right: 50%;
+            transform: translateX(50%);
+            width: 80px;
+            height: 3px;
+            background: linear-gradient(to right, 
+                transparent, 
+                rgba(159, 144, 72, 0.3), 
+                var(--primary-gold), 
+                rgba(159, 144, 72, 0.3),
+                transparent);
+        }
+
+        .gradient-border {
+            position: relative;
+            border-radius: 16px;
+            background: rgba(15, 15, 19, 0.7);
+            padding: 2px;
+        }
+
+        .gradient-border::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, 
+                transparent, 
+                var(--primary-gold), 
+                rgba(159, 144, 72, 0.5),
+                transparent);
+            border-radius: 18px;
+            z-index: -1;
+            opacity: 0.5;
+        }
+
+        /* تأثيرات للهاتف */
+        @media (max-width: 768px) {
+            .counter {
+                font-size: 2.5rem;
+            }
+            
+            .team-member, .partner-card {
+                margin-bottom: 2rem;
+            }
+        }
+    </style>
+</head>
+
+<body class="min-h-screen flex flex-col">
+    <!-- جسيمات متحركة في الخلفية -->
+    <div class="particles" id="particles"></div>
+
+    <!-- Navigation -->
+    <nav class="bg-gradient-to-b from-[#000000]/95 to-[#0f0f13]/90 backdrop-blur-md border-b border-[#9f9048]/30 fixed w-full z-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0 flex items-center">
+                        <div class="h-10 w-10 rounded-full overflow-hidden flex items-center justify-center border border-[#9f9048]">
+                            <img src="images/target.gif" alt="Logo" class="h-full w-full object-cover">
+                        </div>
+                        <span class="ml-3 text-xl font-bold text-white hidden md:block">Target PVP</span>
+                    </div>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-center space-x-4 space-x-reverse">
+                        <a href="index.html" class="nav-link text-white px-3 py-2 rounded-md text-sm font-medium">الرئيسية</a>
+                        <a href="store.html" class="nav-link text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium">المتجر</a>
+                        <a href="rules.html" class="nav-link text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium">القوانين</a>
+                    </div>
+                </div>
+                <div class="flex items-center">
+                    <a href="https://discord.gg/fhh" class="btn-glow bg-gradient-to-r from-[#9f9048] to-[#8a7d3d] hover:from-[#8a7d3d] hover:to-[#9f9048] text-white px-4 py-2 rounded-md text-sm font-medium flex items-center">
+                        <i class="fab fa-discord ml-2"></i>  Join Us
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <main class="flex-grow flex items-center pt-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-24">
+            <div class="text-center">
+                <h1 class="text-5xl md:text-7xl font-extrabold mb-6 glow-text floating">
+                    <span class="block">Target PVP</span>
+                </h1>
+                <p class="text-xl md:text-2xl text-gray-300 max-w-3xl mx-auto mb-10">
+                    أفضل سيرفر تنافسي | تحديات يومية وجوائز قيمة
+                </p>
+                <div class="flex flex-col sm:flex-row justify-center gap-4 mb-16">
+                    <a href="https://discord.gg/fhh" class="btn-glow bg-gradient-to-r from-[#9f9048] to-[#8a7d3d] hover:from-[#8a7d3d] hover:to-[#9f9048] text-white px-8 py-4 rounded-md font-medium flex items-center justify-center text-lg">
+                        <i class="fab fa-discord ml-2"></i>  Join Us
+                    </a>
+                    <a href="store.html" class="btn-glow bg-gradient-to-r from-[#000000] to-[#333333] hover:from-[#333333] hover:to-[#000000] text-white px-8 py-4 rounded-md font-medium flex items-center justify-center text-lg">
+                        <i class="fas fa-store ml-2"></i> تصفح المتجر
+                    </a>
+                    <a href="https://cfx.re/" class="btn-glow bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-600 text-white px-8 py-4 rounded-md font-medium flex items-center justify-center text-lg">
+                        <i class="fas fa-gamepad ml-2"></i> انضم للسيرفر
+                    </a>
+                </div>
+
+                <!-- Discord Stats Box -->
+                <div class="max-w-2xl mx-auto">
+                  <div class="discord-stats p-6 flex flex-col md:flex-row items-center justify-between">
+                    <div class="flex items-center gap-4 mb-4 md:mb-0">
+                      <img src="images/target.gif" alt="Discord" class="w-16 h-16 rounded-lg object-cover border-2 border-[#9f9048]">
+                      <div>
+                        <h3 class="text-lg font-semibold">Target PvP Discord</h3>
+                        <p id="discord-status-text" class="text-sm text-gray-300 mt-1">وش تنتظر؟ بتفوتك فعاليات كثيير</p>
+                      </div>
+                    </div>
+                    <div class="text-center">
+                      <div class="text-xs text-gray-300 mb-1">عدد المتصلين:</div>
+                      <div class="flex items-baseline gap-3">
+                        <div class="px-4 py-2 rounded-lg border border-[#9f9048]/40 bg-white/5">
+                          <div class="text-sm text-gray-300">Online</div>
+                          <div id="discord-online" class="text-2xl font-bold counter">--</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Our Team Section -->
+    <section class="py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-4xl font-bold text-center mb-16 section-title">فريقنا</h2>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="team-member text-center gradient-border p-6">
+                    <div class="w-32 h-32 mx-auto rounded-full bg-gray-800 mb-4 overflow-hidden border-2 border-[#9f9048]">
+                        <img src="https://cdn.discordapp.com/avatars/388011248890937354/24d816b6cce919f2871c68f7dac00e4b.webp?size=4096" alt="Team Member" class="w-full h-full object-cover">
+                    </div>
+                    <h3 class="text-xl font-bold">BoMirah</h3>
+                    <p class="text-[#9f9048]">Owner</p>
+                </div>
+
+                <div class="team-member text-center gradient-border p-6">
+                    <div class="w-32 h-32 mx-auto rounded-full bg-gray-800 mb-4 overflow-hidden border-2 border-[#9f9048]">
+                        <img src="https://cdn.discordapp.com/avatars/1116014098002497627/b439d2fa37d96f6477501e398bffb172.webp?size=4096" alt="Team Member" class="w-full h-full object-cover">
+                    </div>
+                    <h3 class="text-xl font-bold">Lorex</h3>
+                    <p class="text-[#9f9048]">Founder</p>
+                </div>
+
+                <div class="team-member text-center gradient-border p-6">
+                    <div class="w-32 h-32 mx-auto rounded-full bg-gray-800 mb-4 overflow-hidden border-2 border-[#9f9048]">
+                        <img src="https://cdn.discordapp.com/avatars/851511899009974362/e566124434cdbf15723fa2fcaaa3bf73.webp?size=4096" alt="Team Member" class="w-full h-full object-cover">
+                    </div>
+                    <h3 class="text-xl font-bold">Z3WME</h3>
+                    <p class="text-[#9f9048]">Developer</p>
+                </div>
+
+                <div class="team-member text-center gradient-border p-6">
+                    <div class="w-32 h-32 mx-auto rounded-full bg-gray-800 mb-4 overflow-hidden border-2 border-[#9f9048]">
+                        <img src="https://cdn.discordapp.com/avatars/947840943938207774/7ee6e00b4a817abe6a9ee78d3ce35ac2.webp?size=4096" alt="Team Member" class="w-full h-full object-cover">
+                    </div>
+                    <h3 class="text-xl font-bold">Yassin</h3>
+                    <p class="text-[#9f9048]">Developer</p>
+                </div>
+                                <div class="team-member text-center gradient-border p-6">
+                    <div class="w-32 h-32 mx-auto rounded-full bg-gray-800 mb-4 overflow-hidden border-2 border-[#9f9048]">
+                        <img src="https://cdn.discordapp.com/avatars/1000194182201233418/54868eeedb3ab20302be9fbdfc902a37.webp?size=4096" alt="Team Member" class="w-full h-full object-cover">
+                    </div>
+                    <h3 class="text-xl font-bold">KBH</h3>
+                    <p class="text-[#9f9048]">E</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Partners Section -->
+    <section class="py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-4xl font-bold text-center mb-16 section-title">شركاؤنا</h2>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="partner-card text-center gradient-border p-6">
+                    <a href="https://discord.gg/rel" target="_blank">
+                        <div class="w-32 h-32 mx-auto rounded-full bg-gray-800 mb-4 overflow-hidden border-2 border-[#9f9048]">
+                            <img src="https://cdn.discordapp.com/icons/1233903752893698048/a_9d8801468d057f7116e06de9112ffb7c.gif?size=4096" alt="Partner" class="w-full h-full object-cover">
+                        </div>
+                    </a>
+                    <h3 class="text-xl font-bold">Reality Town</h3>
+                    <p class="text-gray-400 mt-2">سيرفر رول بلاي عربي</p>
+                </div>
+
+                <div class="partner-card text-center gradient-border p-6">
+                    <a href="https://discord.gg/s-s" target="_blank">
+                        <div class="w-32 h-32 mx-auto rounded-full bg-gray-800 mb-4 overflow-hidden border-2 border-[#9f9048]">
+                            <img src="https://cdn.discordapp.com/icons/1091176017420365834/a_00446df29e7327b57009116356e3d537.gif?size=4096" alt="Partner" class="w-full h-full object-cover">
+                        </div>
+                    </a>
+                    <h3 class="text-xl font-bold">Fact Team</h3>
+                    <p class="text-gray-400 mt-2">مجموعة تطوير ومحتوى</p>
+                </div>
+
+                <div class="partner-card text-center gradient-border p-6">
+                    <a href="https://discord.gg/rc2dev" target="_blank">
+                        <div class="w-32 h-32 mx-auto rounded-full bg-gray-800 mb-4 overflow-hidden border-2 border-[#9f9048]">
+                            <img src="https://cdn.discordapp.com/icons/788889157748391967/a_baf2260f46d1e8a90b86e739ee896abb.gif?size=512" alt="Partner" class="w-full h-full object-cover">
+                        </div>
+                    </a>
+                    <h3 class="text-xl font-bold">Rc2 Developement</h3>
+                    <p class="text-gray-400 mt-2">استديو تطوير متكامل</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gradient-to-t from-[#000000] to-[#0f0f13] border-t border-[#9f9048]/30 py-8 mt-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="text-[#9f9048] text-sm mb-4 md:mb-0">
+                    © Z3WME 2025 . جميع الحقوق محفوظة.
+                </div>
+                <div class="flex space-x-4 space-x-reverse">
+                    <a href="#" class="text-gray-400 hover:text-[#9f9048] transition-colors duration-300"><i class="fab fa-discord fa-lg"></i></a>
+
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // إنشاء الجسيمات المتحركة
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            const particleCount = 30;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                
+                // أحجام وألوان عشوائية
+                const size = Math.random() * 5 + 2;
+                const colors = [
+                    'rgba(159, 144, 72, 0.6)',
+                    'rgba(159, 144, 72, 0.4)',
+                    'rgba(159, 144, 72, 0.3)'
+                ];
+                const color = colors[Math.floor(Math.random() * colors.length)];
+                
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                particle.style.background = color;
+                
+                // مواقع وتأخيرات عشوائية
+                particle.style.left = `${Math.random() * 100}%`;
+                particle.style.top = `${Math.random() * 100}%`;
+                particle.style.animationDelay = `${Math.random() * 10}s`;
+                particle.style.animationDuration = `${Math.random() * 10 + 10}s`;
+                
+                particlesContainer.appendChild(particle);
+            }
+        }
+
+        // تحديث إحصائيات الديسكورد
+        (function(){
+            const GUILD_ID = '1061050080574058526';
+
+            const onlineEl = document.getElementById('discord-online');
+            const statusText = document.getElementById('discord-status-text');
+
+            fetch(`https://discord.com/api/guilds/${GUILD_ID}/widget.json`)
+              .then(res => {
+                if (!res.ok) throw new Error('Widget not available');
+                return res.json();
+              })
+              .then(data => {
+                const online = data.presence_count ?? 0;
+                onlineEl.textContent = online;
+                statusText.textContent = `حاليًا ${online} لاعب متصل`;
+              })
+              .catch(err => {
+                statusText.textContent = 'انضم إلى السيرفر الآن!';
+                console.warn(err);
+              });
+        })();
+
+        // تهيئة الصفحة
+        document.addEventListener('DOMContentLoaded', function() {
+            createParticles();
+            
+            // تأثيرات عند التمرير
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+            
+            const observer = new IntersectionObserver(function(entries) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = 1;
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, observerOptions);
+            
+            const animatedElements = document.querySelectorAll('.team-member, .partner-card');
+            animatedElements.forEach(el => {
+                el.style.opacity = 0;
+                el.style.transform = 'translateY(20px)';
+                el.style.transition = 'all 0.5s ease-out';
+                observer.observe(el);
+            });
+        });
+    </script>
+</body>
+</html>

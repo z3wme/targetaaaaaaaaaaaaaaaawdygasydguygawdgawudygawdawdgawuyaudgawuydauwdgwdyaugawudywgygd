@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Target PVP | القوانين</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap');
+
+        :root {
+            --primary-gold: #9f9048;
+            --dark-bg: #0f0f13;
+            --darker-bg: #09090a;
+        }
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: linear-gradient(to bottom, var(--darker-bg), var(--dark-bg));
+            color: #f3f4f6;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 20% 30%, rgba(159, 144, 72, 0.15) 0%, transparent 40%),
+                        radial-gradient(circle at 80% 70%, rgba(13, 13, 15, 0.1) 0%, transparent 40%);
+            z-index: -1;
+        }
+
+        .glow-text {
+            text-shadow: 0 0 15px var(--primary-gold), 0 0 25px rgba(159, 144, 72, 0.5);
+            animation: pulsate 2s infinite alternate;
+        }
+
+        @keyframes pulsate {
+            0% { text-shadow: 0 0 15px var(--primary-gold), 0 0 25px rgba(159, 144, 72, 0.5); }
+            100% { text-shadow: 0 0 20px var(--primary-gold), 0 0 40px rgba(159, 144, 72, 0.7), 0 0 55px rgba(159, 144, 72, 0.4); }
+        }
+
+        .btn-glow {
+            box-shadow: 0 0 15px var(--primary-gold);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-glow::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transform: rotate(45deg);
+            animation: shine 3s infinite;
+        }
+
+        @keyframes shine {
+            0% { transform: translateX(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) rotate(45deg); }
+        }
+
+        .btn-glow:hover {
+            box-shadow: 0 0 25px var(--primary-gold), 0 0 40px rgba(159, 144, 72, 0.4);
+            transform: translateY(-3px);
+        }
+
+        .nav-link {
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            background: var(--primary-gold);
+            bottom: 0;
+            right: 0;
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .rule-card {
+            background: rgba(15, 15, 19, 0.7);
+            border-left: 4px solid var(--primary-gold);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .rule-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(to bottom, transparent 0%, rgba(159, 144, 72, 0.1) 100%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 0;
+        }
+        
+        .rule-card:hover {
+            transform: translateX(-5px);
+            background: linear-gradient(to right, rgba(37, 32, 8, 0.7), rgba(2, 2, 2, 0.7));
+        }
+        
+        .rule-card:hover::before {
+            opacity: 1;
+        }
+
+        .gradient-border {
+            position: relative;
+            border-radius: 16px;
+            background: rgba(15, 15, 19, 0.7);
+            padding: 2px;
+        }
+
+        .gradient-border::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, 
+                transparent, 
+                var(--primary-gold), 
+                rgba(159, 144, 72, 0.5),
+                transparent);
+            border-radius: 18px;
+            z-index: -1;
+            opacity: 0.5;
+        }
+
+        .section-title {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 3rem;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            right: 50%;
+            transform: translateX(50%);
+            width: 80px;
+            height: 3px;
+            background: linear-gradient(to right, 
+                transparent, 
+                rgba(159, 144, 72, 0.3), 
+                var(--primary-gold), 
+                rgba(159, 144, 72, 0.3),
+                transparent);
+        }
+
+        .counter {
+            font-size: 3.5rem;
+            background: linear-gradient(135deg, 
+                var(--primary-gold) 0%, 
+                rgba(159, 144, 72, 0.7) 30%,
+                rgba(0, 0, 0, 0.8) 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            font-weight: 700;
+        }
+
+        .particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: -1;
+        }
+
+        .particle {
+            position: absolute;
+            background: rgba(159, 144, 72, 0.5);
+            border-radius: 50%;
+            opacity: 0;
+            animation: particleAnimation 10s linear infinite;
+        }
+
+        @keyframes particleAnimation {
+            0% {
+                transform: translateY(0) translateX(0) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100vh) translateX(100vw) rotate(720deg);
+                opacity: 0;
+            }
+        }
+
+        /* تأثيرات للهاتف */
+        @media (max-width: 768px) {
+            .rule-card {
+                padding: 1.5rem;
+            }
+            
+            .rule-card h2 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+
+<body class="min-h-screen flex flex-col">
+    <!-- جسيمات متحركة في الخلفية -->
+    <div class="particles" id="particles"></div>
+
+    <!-- Navigation -->
+    <nav class="bg-gradient-to-b from-[#000000]/95 to-[#0f0f13]/90 backdrop-blur-md border-b border-[#9f9048]/30 fixed w-full z-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0 flex items-center">
+                        <div class="h-10 w-10 rounded-full overflow-hidden flex items-center justify-center border border-[#9f9048]">
+                            <img src="images/target.gif" alt="Logo" class="h-full w-full object-cover">
+                        </div>
+                        <span class="ml-3 text-xl font-bold text-white hidden md:block">Target PVP</span>
+                    </div>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-center space-x-4 space-x-reverse">
+                        <a href="index.html" class="nav-link text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium">الرئيسية</a>
+                        <a href="store.html" class="nav-link text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium">المتجر</a>
+                        <a href="rules.html" class="nav-link text-white px-3 py-2 rounded-md text-sm font-medium">القوانين</a>
+                    </div>
+                </div>
+                <div class="flex items-center">
+                    <a href="https://discord.gg/fhh" class="btn-glow bg-gradient-to-r from-[#9f9048] to-[#8a7d3d] hover:from-[#8a7d3d] hover:to-[#9f9048] text-white px-4 py-2 rounded-md text-sm font-medium flex items-center">
+                        <i class="fab fa-discord ml-2"></i> Join Us
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Rules Section -->
+    <main class="flex-grow pt-16 pb-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <h1 class="text-4xl md:text-5xl font-bold mb-12 text-center glow-text section-title">قوانين سيرفر Target PVP</h1>
+            
+            <div class="space-y-6">
+                <!-- General Rules -->
+                <div class="rule-card p-8 rounded-lg gradient-border">
+                    <h2 class="text-2xl font-bold mb-6 text-[#9f9048]">القواعد العامة</h2>
+                    <ol class="list-decimal list-inside space-y-4 text-lg">
+                        <li class="pb-2 border-b border-[#9f9048]/20">الالتزام بأدب الحوار والابتعاد عن السباب والشتائم</li>
+                        <li class="pb-2 border-b border-[#9f9048]/20">يمنع التمييز العنصري أو الديني أو الجنسي بأي شكل</li>
+                        <li class="pb-2 border-b border-[#9f9048]/20">الالتزام بقوانين Discord العامة</li>
+                        <li>يمنع نشر أي محتوى غير لائق أو إباحي</li>
+                    </ol>
+                </div>
+                
+                <!-- Game Rules -->
+                <div class="rule-card p-8 rounded-lg gradient-border">
+                    <h2 class="text-2xl font-bold mb-6 text-[#9f9048]">قواعد اللعبة</h2>
+                    <ol class="list-decimal list-inside space-y-4 text-lg">
+                        <li class="pb-2 border-b border-[#9f9048]/20">يمنع استخدام أي برامج غير قانونية أو غش</li>
+                        <li class="pb-2 border-b border-[#9f9048]/20">يمنع استغلال الثغرات في النظام</li>
+                        <li class="pb-2 border-b border-[#9f9048]/20">الالتزام بقوانين الفايتات والبطولات</li>
+                        <li>يمنع التخريب المتعمد للعب الآخرين</li>
+                    </ol>
+                </div>
+                
+                <!-- Voice Chat Rules -->
+                <div class="rule-card p-8 rounded-lg gradient-border">
+                    <h2 class="text-2xl font-bold mb-6 text-[#9f9048]">قواعد المحادثة الصوتية</h2>
+                    <ol class="list-decimal list-inside space-y-4 text-lg">
+                        <li class="pb-2 border-b border-[#9f9048]/20">يمنع الصراخ أو إصدار أصوات مزعجة</li>
+                        <li class="pb-2 border-b border-[#9f9048]/20">الالتزام بموضوع القناة الصوتية</li>
+                        <li class="pb-2 border-b border-[#9f9048]/20">يمنع تشغيل الموسيقى أو الأصوات العالية</li>
+                        <li>احترام خصوصية الآخرين</li>
+                    </ol>
+                </div>
+                
+                <!-- Punishments -->
+                <div class="rule-card p-8 rounded-lg gradient-border">
+                    <h2 class="text-2xl font-bold mb-6 text-[#9f9048]">العقوبات</h2>
+                    <ol class="list-decimal list-inside space-y-4 text-lg">
+                        <li class="pb-2 border-b border-[#9f9048]/20">الإنذار الأول: تنبيه للمخالف</li>
+                        <li class="pb-2 border-b border-[#9f9048]/20">الإنذار الثاني: حظر مؤقت لمدة 24 ساعة</li>
+                        <li class="pb-2 border-b border-[#9f9048]/20">الإنذار الثالث: حظر دائم من السيرفر</li>
+                        <li>في حالات المخالفات الكبيرة: حظر فوري ودائم</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gradient-to-t from-[#000000] to-[#0f0f13] border-t border-[#9f9048]/30 py-8 mt-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="text-[#9f9048] text-sm mb-4 md:mb-0">
+                    © Z3WME 2025 . جميع الحقوق محفوظة.
+                </div>
+                <div class="flex space-x-4 space-x-reverse">
+                    <a href="#" class="text-gray-400 hover:text-[#9f9048] transition-colors duration-300"><i class="fab fa-discord fa-lg"></i></a>
+
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // إنشاء الجسيمات المتحركة
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            const particleCount = 30;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                
+                // أحجام وألوان عشوائية
+                const size = Math.random() * 5 + 2;
+                const colors = [
+                    'rgba(159, 144, 72, 0.6)',
+                    'rgba(159, 144, 72, 0.4)',
+                    'rgba(159, 144, 72, 0.3)'
+                ];
+                const color = colors[Math.floor(Math.random() * colors.length)];
+                
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                particle.style.background = color;
+                
+                // مواقع وتأخيرات عشوائية
+                particle.style.left = `${Math.random() * 100}%`;
+                particle.style.top = `${Math.random() * 100}%`;
+                particle.style.animationDelay = `${Math.random() * 10}s`;
+                particle.style.animationDuration = `${Math.random() * 10 + 10}s`;
+                
+                particlesContainer.appendChild(particle);
+            }
+        }
+
+        // تهيئة الصفحة
+        document.addEventListener('DOMContentLoaded', function() {
+            createParticles();
+            
+            // تأثيرات عند التمرير
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+            
+            const observer = new IntersectionObserver(function(entries) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = 1;
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, observerOptions);
+            
+            const animatedElements = document.querySelectorAll('.rule-card');
+            animatedElements.forEach(el => {
+                el.style.opacity = 0;
+                el.style.transform = 'translateY(20px)';
+                el.style.transition = 'all 0.5s ease-out';
+                observer.observe(el);
+            });
+        });
+    </script>
+</body>
+</html>

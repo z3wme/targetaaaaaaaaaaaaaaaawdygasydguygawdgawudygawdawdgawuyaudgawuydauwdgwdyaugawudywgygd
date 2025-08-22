@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Target PVP | المتجر</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap');
+        
+        :root {
+            --primary-gold: #9f9048;
+            --dark-bg: #0f0f13;
+            --darker-bg: #09090a;
+        }
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: linear-gradient(to bottom, var(--darker-bg), var(--dark-bg));
+            color: #f3f4f6;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 20% 30%, rgba(159, 144, 72, 0.15) 0%, transparent 40%),
+                        radial-gradient(circle at 80% 70%, rgba(13, 13, 15, 0.1) 0%, transparent 40%);
+            z-index: -1;
+        }
+        
+        .glow-text {
+            text-shadow: 0 0 15px var(--primary-gold), 0 0 25px rgba(159, 144, 72, 0.5);
+            animation: pulsate 2s infinite alternate;
+        }
+
+        @keyframes pulsate {
+            0% { text-shadow: 0 0 15px var(--primary-gold), 0 0 25px rgba(159, 144, 72, 0.5); }
+            100% { text-shadow: 0 0 20px var(--primary-gold), 0 0 40px rgba(159, 144, 72, 0.7), 0 0 55px rgba(159, 144, 72, 0.4); }
+        }
+        
+        .nav-link {
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            background: var(--primary-gold);
+            bottom: 0;
+            right: 0;
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .btn-glow {
+            box-shadow: 0 0 15px var(--primary-gold);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-glow::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transform: rotate(45deg);
+            animation: shine 3s infinite;
+        }
+
+        @keyframes shine {
+            0% { transform: translateX(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) rotate(45deg); }
+        }
+
+        .btn-glow:hover {
+            box-shadow: 0 0 25px var(--primary-gold), 0 0 40px rgba(159, 144, 72, 0.4);
+            transform: translateY(-3px);
+        }
+
+        .product-card {
+            background: rgba(15, 15, 19, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(159, 144, 72, 0.4);
+            border-radius: 1rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .product-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(to bottom, transparent 0%, rgba(159, 144, 72, 0.1) 100%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 0;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(159, 144, 72, 0.6);
+        }
+        
+        .product-card:hover::before {
+            opacity: 1;
+        }
+
+        .product-image {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(159, 144, 72, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        .product-card:hover .product-image {
+            border-color: rgba(159, 144, 72, 0.6);
+            transform: scale(1.02);
+        }
+
+        .section-title {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 3rem;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            right: 50%;
+            transform: translateX(50%);
+            width: 80px;
+            height: 3px;
+            background: linear-gradient(to right, 
+                transparent, 
+                rgba(159, 144, 72, 0.3), 
+                var(--primary-gold), 
+                rgba(159, 144, 72, 0.3),
+                transparent);
+        }
+
+        .particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: -1;
+        }
+
+        .particle {
+            position: absolute;
+            background: rgba(159, 144, 72, 0.5);
+            border-radius: 50%;
+            opacity: 0;
+            animation: particleAnimation 10s linear infinite;
+        }
+
+        @keyframes particleAnimation {
+            0% {
+                transform: translateY(0) translateX(0) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100vh) translateX(100vw) rotate(720deg);
+                opacity: 0;
+            }
+        }
+
+        /* تأثيرات للهاتف */
+        @media (max-width: 768px) {
+            .product-card {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+    <!-- جسيمات متحركة في الخلفية -->
+    <div class="particles" id="particles"></div>
+
+    <!-- Navigation -->
+    <nav class="bg-gradient-to-b from-[#000000]/95 to-[#0f0f13]/90 backdrop-blur-md border-b border-[#9f9048]/30 fixed w-full z-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0 flex items-center">
+                        <div class="h-10 w-10 rounded-full overflow-hidden flex items-center justify-center border border-[#9f9048]">
+                            <img src="images/target.gif" alt="Logo" class="h-full w-full object-cover">
+                        </div>
+                        <span class="ml-3 text-xl font-bold text-white hidden md:block">Target PVP</span>
+                    </div>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-center space-x-4 space-x-reverse">
+                        <a href="index.html" class="nav-link text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium">الرئيسية</a>
+                        <a href="store.html" class="nav-link text-white px-3 py-2 rounded-md text-sm font-medium">المتجر</a>
+                        <a href="rules.html" class="nav-link text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium">القوانين</a>
+                    </div>
+                </div>
+                <div class="flex items-center">
+                    <a href="https://discord.gg/fhh" class="btn-glow bg-gradient-to-r from-[#9f9048] to-[#8a7d3d] hover:from-[#8a7d3d] hover:to-[#9f9048] text-white px-4 py-2 rounded-md text-sm font-medium flex items-center">
+                        <i class="fab fa-discord ml-2"></i>  Join Us
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="flex-grow pt-16 pb-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <h1 class="text-4xl md:text-5xl font-bold mb-12 text-center glow-text section-title">Target PvP Store</h1>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Product 1 -->
+                <div class="product-card rounded-lg p-6">
+                    <div class="product-image rounded-lg h-48 mb-4 flex items-center justify-center">
+                        <i class="fas fa-crown text-5xl text-[#9f9048]"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2 text-white">باقة VIP</h3>
+                    <p class="text-gray-300 mb-4">احصل على مميزات حصرية ورتبة VIP في السيرفر</p>
+                    <div class="flex justify-between items-center">
+                        <span class="text-[#9f9048] font-bold">2500000000 SAR</span>
+                        <a href="https://discord.gg/fhh" class="btn-glow bg-gradient-to-r from-[#9f9048] to-[#8a7d3d] hover:from-[#8a7d3d] hover:to-[#9f9048] text-white px-4 py-2 rounded-md text-sm font-medium">
+                            شراء الآن
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Product 2 -->
+                <div class="product-card rounded-lg p-6">
+                    <div class="product-image rounded-lg h-48 mb-4 flex items-center justify-center">
+                        <i class="fas fa-coins text-5xl text-[#9f9048]"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2 text-white">ايدي ثلاثي</h3>
+                    <p class="text-gray-300 mb-4">ايدي ثلاثي</p>
+                    <div class="flex justify-between items-center">
+                        <span class="text-[#9f9048] font-bold">15000000000 SAR</span>
+                        <a href="https://discord.gg/fhh" class="btn-glow bg-gradient-to-r from-[#9f9048] to-[#8a7d3d] hover:from-[#8a7d3d] hover:to-[#9f9048] text-white px-4 py-2 rounded-md text-sm font-medium">
+                            شراء الآن
+                        </a>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gradient-to-t from-[#000000] to-[#0f0f13] border-t border-[#9f9048]/30 py-8 mt-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="text-[#9f9048] text-sm mb-4 md:mb-0">
+                    © Z3WME 2025 . جميع الحقوق محفوظة.
+                </div>
+                <div class="flex space-x-4 space-x-reverse">
+                    <a href="#" class="text-gray-400 hover:text-[#9f9048] transition-colors duration-300"><i class="fab fa-discord fa-lg"></i></a>
+
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // إنشاء الجسيمات المتحركة
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            const particleCount = 30;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                
+                // أحجام وألوان عشوائية
+                const size = Math.random() * 5 + 2;
+                const colors = [
+                    'rgba(159, 144, 72, 0.6)',
+                    'rgba(159, 144, 72, 0.4)',
+                    'rgba(159, 144, 72, 0.3)'
+                ];
+                const color = colors[Math.floor(Math.random() * colors.length)];
+                
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                particle.style.background = color;
+                
+                // مواقع وتأخيرات عشوائية
+                particle.style.left = `${Math.random() * 100}%`;
+                particle.style.top = `${Math.random() * 100}%`;
+                particle.style.animationDelay = `${Math.random() * 10}s`;
+                particle.style.animationDuration = `${Math.random() * 10 + 10}s`;
+                
+                particlesContainer.appendChild(particle);
+            }
+        }
+
+        // تهيئة الصفحة
+        document.addEventListener('DOMContentLoaded', function() {
+            createParticles();
+            
+            // تأثيرات عند التمرير
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+            
+            const observer = new IntersectionObserver(function(entries) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = 1;
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, observerOptions);
+            
+            const animatedElements = document.querySelectorAll('.product-card');
+            animatedElements.forEach(el => {
+                el.style.opacity = 0;
+                el.style.transform = 'translateY(20px)';
+                el.style.transition = 'all 0.5s ease-out';
+                observer.observe(el);
+            });
+        });
+    </script>
+</body>
+</html>
