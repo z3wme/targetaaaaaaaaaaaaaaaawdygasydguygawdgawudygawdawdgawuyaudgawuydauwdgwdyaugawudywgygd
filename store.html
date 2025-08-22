@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Target PVP | المتجر</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap');
@@ -160,21 +161,21 @@
         }
 
         .particles {
-            position: absolute;
+            position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
             overflow: hidden;
             z-index: -1;
+            pointer-events: none;
         }
 
         .particle {
             position: absolute;
-            background: rgba(159, 144, 72, 0.5);
             border-radius: 50%;
-            opacity: 0;
-            animation: particleAnimation 10s linear infinite;
+            pointer-events: none;
+            will-change: transform;
         }
 
         @keyframes particleAnimation {
@@ -204,7 +205,7 @@
 </head>
 <body class="min-h-screen flex flex-col">
     <!-- جسيمات متحركة في الخلفية -->
-    <div class="particles" id="particles"></div>
+    <div id="particles-js" style="position:fixed; width:100vw; height:100vh; z-index:0; top:0; left:0;"></div>
 
     <!-- Navigation -->
     <nav class="bg-gradient-to-b from-[#000000]/95 to-[#0f0f13]/90 backdrop-blur-md border-b border-[#9f9048]/30 fixed w-full z-10">
@@ -289,41 +290,71 @@
     </footer>
 
     <script>
-        // إنشاء الجسيمات المتحركة
-        function createParticles() {
-            const particlesContainer = document.getElementById('particles');
-            const particleCount = 30;
-            
-            for (let i = 0; i < particleCount; i++) {
-                const particle = document.createElement('div');
-                particle.classList.add('particle');
-                
-                // أحجام وألوان عشوائية
-                const size = Math.random() * 5 + 2;
-                const colors = [
-                    'rgba(159, 144, 72, 0.6)',
-                    'rgba(159, 144, 72, 0.4)',
-                    'rgba(159, 144, 72, 0.3)'
-                ];
-                const color = colors[Math.floor(Math.random() * colors.length)];
-                
-                particle.style.width = `${size}px`;
-                particle.style.height = `${size}px`;
-                particle.style.background = color;
-                
-                // مواقع وتأخيرات عشوائية
-                particle.style.left = `${Math.random() * 100}%`;
-                particle.style.top = `${Math.random() * 100}%`;
-                particle.style.animationDelay = `${Math.random() * 10}s`;
-                particle.style.animationDuration = `${Math.random() * 10 + 10}s`;
-                
-                particlesContainer.appendChild(particle);
-            }
-        }
+    particlesJS('particles-js', {
+            particles: {
+                number: { value: 60, density: { enable: true, value_area: 800 } },
+                color: { value: "#9f9048" },
+                shape: { type: "circle" },
+                opacity: { value: 0.7, random: true },
+                size: { value: 5, random: true },
+                line_linked: {
+                    enable: true,
+                    distance: 150,
+                    color: "#9f9048",
+                    opacity: 0.4,
+                    width: 1
+                },
+                move: {
+                    enable: true,
+                    speed: 2,
+                    direction: "none",
+                    random: false,
+                    straight: false,
+                    out_mode: "out",
+                    bounce: false
+                }
+            },
+            interactivity: {
+                detect_on: "canvas",
+                events: {
+                    onhover: { enable: true, mode: "repulse" },
+                    onclick: { enable: true, mode: "push" },
+                    resize: true
+                },
+                modes: {
+                    repulse: { distance: 100, duration: 0.4 },
+                    push: { particles_nb: 4 }
+                }
+            },
+            retina_detect: true
+        });
+        // تحديث إحصائيات الديسكورد
+        (function(){
+            const GUILD_ID = '1061050080574058526';
+
+            const onlineEl = document.getElementById('discord-online');
+            const statusText = document.getElementById('discord-status-text');
+
+            fetch(`https://discord.com/api/guilds/${GUILD_ID}/widget.json`)
+              .then(res => {
+                if (!res.ok) throw new Error('Widget not available');
+                return res.json();
+              })
+              .then(data => {
+                const online = data.presence_count ?? 0;
+                onlineEl.textContent = online;
+                statusText.textContent = `حاليًا ${online} لاعب متصل`;
+              })
+              .catch(err => {
+                statusText.textContent = 'انضم إلى السيرفر الآن!';
+                console.warn(err);
+              });
+        })();
 
         // تهيئة الصفحة
         document.addEventListener('DOMContentLoaded', function() {
-            createParticles();
+            // بدء نظام الجسيمات
+            new ParticlesSystem();
             
             // تأثيرات عند التمرير
             const observerOptions = {
@@ -340,7 +371,7 @@
                 });
             }, observerOptions);
             
-            const animatedElements = document.querySelectorAll('.product-card');
+            const animatedElements = document.querySelectorAll('.team-member, .partner-card');
             animatedElements.forEach(el => {
                 el.style.opacity = 0;
                 el.style.transform = 'translateY(20px)';
