@@ -22,6 +22,7 @@
             color: #f3f4f6;
             position: relative;
             overflow-x: hidden;
+            cursor: default;
         }
 
         body::before {
@@ -169,38 +170,21 @@
         }
 
         .particles {
-            position: absolute;
+            position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
             overflow: hidden;
             z-index: -1;
+            pointer-events: none;
         }
 
         .particle {
             position: absolute;
-            background: rgba(159, 144, 72, 0.5);
             border-radius: 50%;
-            opacity: 0;
-            animation: particleAnimation 10s linear infinite;
-        }
-
-        @keyframes particleAnimation {
-            0% {
-                transform: translateY(0) translateX(0) rotate(0deg);
-                opacity: 0;
-            }
-            10% {
-                opacity: 1;
-            }
-            90% {
-                opacity: 1;
-            }
-            100% {
-                transform: translateY(-100vh) translateX(100vw) rotate(720deg);
-                opacity: 0;
-            }
+            pointer-events: none;
+            will-change: transform;
         }
 
         .section-title {
@@ -264,7 +248,7 @@
 
 <body class="min-h-screen flex flex-col">
     <!-- جسيمات متحركة في الخلفية -->
-    <div class="particles" id="particles"></div>
+    <div id="particles-js" style="position:fixed; width:100vw; height:100vh; z-index:0; top:0; left:0;"></div>
 
     <!-- Navigation -->
     <nav class="bg-gradient-to-b from-[#000000]/95 to-[#0f0f13]/90 backdrop-blur-md border-b border-[#9f9048]/30 fixed w-full z-10">
@@ -378,13 +362,6 @@
                     <h3 class="text-xl font-bold">Yassin</h3>
                     <p class="text-[#9f9048]">Developer</p>
                 </div>
-                                <div class="team-member text-center gradient-border p-6">
-                    <div class="w-32 h-32 mx-auto rounded-full bg-gray-800 mb-4 overflow-hidden border-2 border-[#9f9048]">
-                        <img src="https://cdn.discordapp.com/avatars/1000194182201233418/54868eeedb3ab20302be9fbdfc902a37.webp?size=4096" alt="Team Member" class="w-full h-full object-cover">
-                    </div>
-                    <h3 class="text-xl font-bold">KBH</h3>
-                    <p class="text-[#9f9048]">E</p>
-                </div>
             </div>
         </div>
     </section>
@@ -443,39 +420,49 @@
         </div>
     </footer>
 
-    <script>
-        // إنشاء الجسيمات المتحركة
-        function createParticles() {
-            const particlesContainer = document.getElementById('particles');
-            const particleCount = 30;
-            
-            for (let i = 0; i < particleCount; i++) {
-                const particle = document.createElement('div');
-                particle.classList.add('particle');
-                
-                // أحجام وألوان عشوائية
-                const size = Math.random() * 5 + 2;
-                const colors = [
-                    'rgba(159, 144, 72, 0.6)',
-                    'rgba(159, 144, 72, 0.4)',
-                    'rgba(159, 144, 72, 0.3)'
-                ];
-                const color = colors[Math.floor(Math.random() * colors.length)];
-                
-                particle.style.width = `${size}px`;
-                particle.style.height = `${size}px`;
-                particle.style.background = color;
-                
-                // مواقع وتأخيرات عشوائية
-                particle.style.left = `${Math.random() * 100}%`;
-                particle.style.top = `${Math.random() * 100}%`;
-                particle.style.animationDelay = `${Math.random() * 10}s`;
-                particle.style.animationDuration = `${Math.random() * 10 + 10}s`;
-                
-                particlesContainer.appendChild(particle);
-            }
-        }
 
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+
+
+    <script>
+    particlesJS('particles-js', {
+            particles: {
+                number: { value: 60, density: { enable: true, value_area: 800 } },
+                color: { value: "#9f9048" },
+                shape: { type: "circle" },
+                opacity: { value: 0.7, random: true },
+                size: { value: 5, random: true },
+                line_linked: {
+                    enable: true,
+                    distance: 150,
+                    color: "#9f9048",
+                    opacity: 0.4,
+                    width: 1
+                },
+                move: {
+                    enable: true,
+                    speed: 2,
+                    direction: "none",
+                    random: false,
+                    straight: false,
+                    out_mode: "out",
+                    bounce: false
+                }
+            },
+            interactivity: {
+                detect_on: "canvas",
+                events: {
+                    onhover: { enable: true, mode: "repulse" },
+                    onclick: { enable: true, mode: "push" },
+                    resize: true
+                },
+                modes: {
+                    repulse: { distance: 100, duration: 0.4 },
+                    push: { particles_nb: 4 }
+                }
+            },
+            retina_detect: true
+        });
         // تحديث إحصائيات الديسكورد
         (function(){
             const GUILD_ID = '1061050080574058526';
@@ -501,7 +488,8 @@
 
         // تهيئة الصفحة
         document.addEventListener('DOMContentLoaded', function() {
-            createParticles();
+            // بدء نظام الجسيمات
+            new ParticlesSystem();
             
             // تأثيرات عند التمرير
             const observerOptions = {
