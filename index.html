@@ -17,12 +17,23 @@
             --darker-bg: #09090a;
         }
 
+        /* منع التمرير الأفقي */
+        html, body {
+            overflow-x: hidden;
+            max-width: 100%;
+            
+        }
+
+        ::-webkit-scrollbar {
+    display: none;
+}
+
         body {
             font-family: 'Cairo', sans-serif;
             background: linear-gradient(to bottom, var(--darker-bg), var(--dark-bg));
             color: #f3f4f6;
             position: relative;
-            overflow-x: hidden;
+            overflow: hidden;
             cursor: default;
         }
 
@@ -49,7 +60,6 @@
         }
 
         .btn-glow {
-            box-shadow: 0 0 15px var(--primary-gold);
             transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
@@ -73,7 +83,6 @@
         }
 
         .btn-glow:hover {
-            box-shadow: 0 0 25px var(--primary-gold), 0 0 40px rgba(159, 144, 72, 0.4);
             transform: translateY(-3px);
         }
 
@@ -234,6 +243,11 @@
             opacity: 0.5;
         }
 
+        /* إصلاح أي عنصر قد يتسبب في ظهور شريط التمرير */
+        .container, .row, .col, [class*="max-w-"] {
+            max-width: 100vw !important;
+        }
+
         /* تأثيرات للهاتف */
         @media (max-width: 768px) {
             .counter {
@@ -255,10 +269,10 @@
     <nav class="bg-gradient-to-b from-[#000000]/95 to-[#0f0f13]/90 backdrop-blur-md border-b border-[#9f9048]/30 fixed w-full z-10">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-16 items-center">
-                                <div class="hidden md:block">
+                <div class="hidden md:block">
                     <div class="ml-10 flex items-center space-x-4 space-x-reverse">
                         <a href="index.html" class="nav-link text-white px-3 py-2 rounded-md text-sm font-medium">الرئيسية</a>
-                        <a href="store.html" class="nav-link text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium">المتجر</a>
+                        <a href="store.html" class="nav-link text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium border-radius 8px ">المتجر</a>
                         <a href="rules.html" class="nav-link text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium border-radius 8px ">القوانين</a>
                     </div>
                 </div>
@@ -278,14 +292,14 @@
     <main class="flex-grow flex items-center pt-16">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-24">
             <div class="text-center">
-                <h1 class="text-5xl md:text-7xl font-extrabold mb-6 glow-text floating">
+                <h1 class="text-5xl md:text-7xl font-extrabold mb-6 glow-text ">
                     <span class="block">Target PVP</span>
                 </h1>
                 <p class="text-xl md:text-2xl text-gray-300 max-w-3xl mx-auto mb-10">
                     أفضل سيرفر تنافسي | تحديات يومية وجوائز قيمة
                 </p>
                 <div class="flex flex-col sm:flex-row justify-center gap-4 mb-16">
-                    <a href="https://discord.gg/fhh" class="btn-glow bg-gradient-to-r from-[#9f9048] to-[#8a7d3d] hover:from-[#8a7d3d] hover:to-[#9f9048] text-white px-8 py-4 rounded-md font-medium flex items-center justify-center text-lg">
+                    <a href="https://discord.gg/fhh" class="btn-glow bg-gradient-to-r from-[#8a7d3d] to-[#8a7d3d] hover:from-[#8a7d3d] hover:to-[#8a7d3d] text-white px-8 py-4 rounded-md font-medium flex items-center justify-center text-lg">
                         <i class="fab fa-discord ml-2"></i>  Join Us
                     </a>
                     <a href="store.html" class="btn-glow bg-gradient-to-r from-[#000000] to-[#333333] hover:from-[#333333] hover:to-[#000000] text-white px-8 py-4 rounded-md font-medium flex items-center justify-center text-lg">
