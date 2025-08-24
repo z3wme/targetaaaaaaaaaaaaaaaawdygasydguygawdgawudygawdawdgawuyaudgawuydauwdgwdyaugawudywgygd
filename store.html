@@ -26,6 +26,12 @@
             overflow-x: hidden;
         }
 
+        html, body {
+            overflow-x: hidden;
+            max-width: 100%;
+            
+        }
+
         body::before {
             content: '';
             position: absolute;
@@ -162,6 +168,10 @@
                 transparent);
         }
 
+        ::-webkit-scrollbar {
+            display: none;
+        }
+
         .particles {
             position: fixed;
             top: 0;
@@ -178,6 +188,10 @@
             border-radius: 50%;
             pointer-events: none;
             will-change: transform;
+        }
+
+        .container, .row, .col, [class*="max-w-"] {
+            max-width: 100vw !important;
         }
 
         @keyframes particleAnimation {
@@ -215,9 +229,9 @@
             <div class="flex justify-between h-16 items-center">
                 <div class="hidden md:block">
                     <div class="ml-10 flex items-center space-x-4 space-x-reverse">
-                        <a href="index.html" class="nav-link text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium">الرئيسية</a>
+                        <a href="index.html" class="nav-link text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium border-radius 8px ">الرئيسية</a>
                         <a href="store.html" class="nav-link text-white px-3 py-2 rounded-md text-sm font-medium">المتجر</a>
-                        <a href="rules.html" class="nav-link text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium">القوانين</a>
+                        <a href="rules.html" class="nav-link text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium border-radius 8px ">القوانين</a>
                     </div>
                 </div>
                 <div class="flex items-center">
@@ -279,7 +293,7 @@
                     © Z3WME 2025 . جميع الحقوق محفوظة.
                 </div>
                 <div class="flex space-x-4 space-x-reverse">
-                    <a href="#" class="text-gray-400 hover:text-[#9f9048] transition-colors duration-300"><i class="fab fa-discord fa-lg"></i></a>
+                    <a href="https://discord.gg/fhh" class="text-gray-400 hover:text-[#9f9048] transition-colors duration-300"><i class="fab fa-discord fa-lg"></i></a>
 
                 </div>
             </div>
